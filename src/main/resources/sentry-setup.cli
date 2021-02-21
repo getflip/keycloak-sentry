@@ -1,0 +1,20 @@
+embed-server --server-config=standalone-ha.xml --std-out=echo
+
+/subsystem=logging/custom-handler=sentry:add(name=io.sentry,class=io.sentry.jul.SentryHandler,module=io.sentry,level=ALL,enabled=true)
+
+/subsystem=logging/root-logger=ROOT:add-handler(name=sentry)
+/subsystem=logging/root-logger=ROOT:read-resource
+
+/subsystem=keycloak-server/spi=eventsListener:add(default-provider=jboss-logging)
+
+/subsystem=keycloak-server/spi=eventsListener/provider=jboss-logging:add(enabled=true)
+
+# remap successful operations to "info" loglevel to appear in the log
+/subsystem=keycloak-server/spi=eventsListener/provider=jboss-logging:write-attribute(name=properties.success-level,value=info)
+
+# remap failed operations to "error" loglevel to be propagated to sentry
+/subsystem=keycloak-server/spi=eventsListener/provider=jboss-logging:write-attribute(name=properties.error-level,value=error)
+
+stop-embedded-server
+
+

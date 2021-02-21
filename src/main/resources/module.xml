@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<module xmlns="urn:jboss:module:1.1" name="io.sentry">
+
+    <resources>
+        <resource-root path="sentry-jul-@SENTRY_RELEASE@.jar"/>
+        <resource-root path="sentry-@SENTRY_RELEASE@.jar"/>
+        <resource-root path="gson-@GSON_RELEASE@.jar"/>
+        <resource-root path="jboss-jsse-api_8.0_spec-1.0.0.Final.jar"/>
+    </resources>
+
+    <dependencies>
+        <module name="org.slf4j"/>
+    </dependencies>
+</module>

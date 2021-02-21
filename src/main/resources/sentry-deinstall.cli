@@ -1,0 +1,11 @@
+embed-server --server-config=standalone-ha.xml --std-out=echo
+
+/subsystem=logging/root-logger=ROOT:remove-handler(name=sentry) {rollback-on-runtime-failure=false}
+/subsystem=logging/custom-handler=sentry:remove() {rollback-on-runtime-failure=false}
+
+/subsystem=keycloak-server/spi=eventsListener:remove() {rollback-on-runtime-failure=false}
+
+module remove --name=io.sentry
+
+stop-embedded-server
+
